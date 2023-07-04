@@ -1,16 +1,19 @@
 #include <Arduino.h>
+
 #include <LiquidCrystal_I2C.h>
 #include <Servo.h>
 #include <TimerOne.h>
+
+#include <lcd.h>
+#include <juego.h>
+#include <grua.h>
+#include <retenciones.h>
 
 /* 
   Hay que volver a declarar las variables dentro de cada libreria??
 
   Si las librerias se usan en en mis librerias, tambien las tengo que declarar aca???
 */
-
-#define FALSE 0
-#define TRUE 1
 
 #define incremento 13 //10
 #define inicio A0 //12
@@ -60,15 +63,9 @@ int grados1 = 0;
 int grados2 = 0;
 int grados3 = 60;
 
-bool flagPulsoIncremento = FALSE;
-bool flagPulsoInicio = FALSE;
-bool flagHabilitacionInicio = FALSE;
-
-void actualizarLcd();
-void juego();
-void grua();
-void retencionInicio();
-void apagarLeds();
+bool flagPulsoIncremento = false;
+bool flagPulsoInicio = false;
+bool flagHabilitacionInicio = false;
 
 void setup(){
   //Inicializacion del Timer2
@@ -159,44 +156,15 @@ void loop(){
     * Las MEF son para la retencion de los pulsadores de incremento de viajes y de inicio 
     */
       apagarLeds();
-
-      switch(estadoRetencionIncremento){
-        case 1:
-          flagPulsoIncremento = FALSE;
-
-          if(digitalRead(incremento) == LOW)
-            estadoRetencionIncremento = 1;
-
-          if(digitalRead(incremento) == HIGH){
-            tIncremento = 0;
-            estadoRetencionIncremento = 2;
-          }
-        break;
-        case 2:
-          if(tIncremento < 20)
-            estadoRetencionIncremento = 2;
-          if(tIncremento >= 20)
-            estadoRetencionIncremento = 3;
-        break;
-        case 3: 
-          if(digitalRead(incremento) == HIGH){
-            flagPulsoIncremento  = TRUE;
-            estadoRetencionIncremento  = 1;
-          }
-          else{
-            flagPulsoIncremento = FALSE;
-            estadoRetencionIncremento = 1;
-          }
-        break;
-      }
+      retencionIncremento();
       retencionInicio(); //la mef para la retencion del pulsador inicio se llama varias veces en el programa
       
       /*Si el pulsador verdaderamente esta presionado, se incrementa una vez la variable
         Se puede dar inicio al juego luego de haber seleccionado minimo un viaje, entonces se habilita el boton inicio
       */
-      if(flagPulsoIncremento == TRUE){
+      if(flagPulsoIncremento == true){
         numViajes++;
-        flagHabilitacionInicio = TRUE;
+        flagHabilitacionInicio = true;
       }
       if(estadoLcd == 2){ //condicion para salir de este estado, le puse esta para no repetir la condicion del estado del lcd
         juego(); //llamo para encender el primer led
@@ -251,7 +219,7 @@ void loop(){
       numAnterior = 0;
 
       estadoLcd = 0;
-      flagHabilitacionInicio = FALSE;
+      flagHabilitacionInicio = false;
       estadoPrograma = 1;
     break;
   }

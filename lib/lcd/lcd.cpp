@@ -1,4 +1,6 @@
 #include "lcd.h"
+#include <juego.h>
+#include <retenciones.h>
 
 /*Aca tengo que volver a declarar la libreria LiquidCrystal??
 
@@ -17,7 +19,7 @@ void actualizarLcd(){
       lcd.setCursor(0,1);
       lcd.print(numViajes);
 
-      if(flagPulsoInicio == TRUE && flagHabilitacionInicio == TRUE){ //se cambia de estado si ya hay viajes seleccionados
+      if(flagPulsoInicio == true && flagHabilitacionInicio == true){ //se cambia de estado si ya hay viajes seleccionados
         tlcd = 5;
         estadoLcd = 1;
       }
@@ -104,7 +106,7 @@ void actualizarLcd(){
       lcd.print("presionar inicio");
 
       retencionInicio(); 
-      if(flagPulsoInicio == TRUE){
+      if(flagPulsoInicio == true){
         lcd.clear();
         estadoPrograma = 4;
       }

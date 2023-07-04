@@ -1,7 +1,7 @@
 #include "grua.h"
 
-
 void grua(){
+  
   estadoBluetooth = Serial.read(); 
 
   ///SERVO 1 -- DERECHA IZQUIERDA -- 9///

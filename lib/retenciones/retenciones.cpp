@@ -1,27 +1,8 @@
-#define FALSE 0
-#define TRUE 1
-
-#define incremento 13 //10
-#define inicio A0 //12
-
-int estadoPrograma = 1;
-int estadoRetencionIncremento = 1;
-int estadoRetencionInicio = 1;
-int estadoLcd = 0;
-int estadoBluetooth = 0;
-
-int tInicio = 0;
-int tIncremento = 0;
-
-bool flagPulsoIncremento = FALSE;
-bool flagPulsoInicio = FALSE;
-bool flagHabilitacionInicio = FALSE;
-
 void retencionInicio(){
 
   switch(estadoRetencionInicio){
     case 1:
-      flagPulsoInicio = FALSE;
+      flagPulsoInicio = false;
 
       if(digitalRead(inicio) == LOW)
         estadoRetencionInicio = 1;
@@ -39,11 +20,11 @@ void retencionInicio(){
     break;
     case 3: 
       if(digitalRead(inicio) == HIGH){
-        flagPulsoInicio = TRUE;
+        flagPulsoInicio = true;
         estadoRetencionInicio = 1;
       }
       else{
-        flagPulsoInicio = FALSE;
+        flagPulsoInicio = false;
         estadoRetencionInicio = 1;
       }
     break;
@@ -54,7 +35,7 @@ void retencionIncremento(){
   
   switch(estadoRetencionIncremento){
         case 1:
-          flagPulsoIncremento = FALSE;
+          flagPulsoIncremento = false;
 
           if(digitalRead(incremento) == LOW)
             estadoRetencionIncremento = 1;
@@ -72,11 +53,11 @@ void retencionIncremento(){
         break;
         case 3: 
           if(digitalRead(incremento) == HIGH){
-            flagPulsoIncremento  = TRUE;
+            flagPulsoIncremento  = true;
             estadoRetencionIncremento  = 1;
           }
           else{
-            flagPulsoIncremento = FALSE;
+            flagPulsoIncremento = false;
             estadoRetencionIncremento = 1;
           }
         break;
